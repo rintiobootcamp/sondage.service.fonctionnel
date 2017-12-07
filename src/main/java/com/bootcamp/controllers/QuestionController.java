@@ -17,8 +17,9 @@ import java.util.List;
 
 
 @RestController("QuestionController")
-@RequestMapping("/questions")
+@RequestMapping("/sondages")
 @Api(value = "Question API", description = "Question API")
+@CrossOrigin(origins = "*")
 public class QuestionController {
 
     @Autowired
@@ -43,7 +44,7 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ApiVersions({"1.0"})
-    @ApiOperation(value = "Read a question", notes = "Read a question")
+    @ApiOperation(value = "Read all the questions", notes = "Read all the questions")
     public ResponseEntity<List<Question>> read() throws SQLException {
 
         HttpStatus httpStatus = null;
@@ -55,7 +56,7 @@ public class QuestionController {
     
     @RequestMapping(method = RequestMethod.POST, value="/{reponse}")
     @ApiVersions({"1.0"})
-    @ApiOperation(value = "Read a question", notes = "Read a question")
+    @ApiOperation(value = "Create a post for a question", notes = "Create a post for a question")
     public HttpStatus particiter(Question question,@PathVariable(name = "reponse") String reponse) throws SQLException {
         //String reponse = request.getQueryString();
         questionService.participer(question, reponse);
