@@ -1,7 +1,5 @@
 package com.bootcamp.controllers;
 
-import com.bootcamp.commons.exceptions.DatabaseException;
-import com.bootcamp.commons.ws.usecases.pivotone.QuestionWS;
 import com.bootcamp.entities.Question;
 import com.bootcamp.services.QuestionService;
 import com.bootcamp.version.ApiVersions;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +23,9 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+    
+//    @Autowired
+//    TypeReponseService questionService;
     @Autowired
     HttpServletRequest request;
 
@@ -34,9 +33,9 @@ public class QuestionController {
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a new question", notes = "Create a new question")
     public ResponseEntity<Question> create(@RequestBody @Valid Question question) throws SQLException {
-
+//
         HttpStatus httpStatus = null;
-
+       
             questionService.create(question);
             httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(question, httpStatus);
@@ -45,13 +44,25 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET)
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read a question", notes = "Read a question")
-    public ResponseEntity<List<QuestionWS>> read() throws SQLException {
+    public ResponseEntity<List<Question>> read() throws SQLException {
 
-        List<QuestionWS> questionWSs = new ArrayList<QuestionWS>();
         HttpStatus httpStatus = null;
-            questionWSs = questionService.readAll();
-            httpStatus = HttpStatus.OK;
+        List<Question> questions = questionService.readAll();
+        httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(questionWSs, httpStatus);
+        return new ResponseEntity<>(questions, httpStatus);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value="/{reponse}")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Read a question", notes = "Read a question")
+    public HttpStatus particiter(Question question,@PathVariable(name = "reponse") String reponse) throws SQLException {
+        //String reponse = request.getQueryString();
+        questionService.participer(question, reponse);
+        HttpStatus httpStatus = null;
+        httpStatus = HttpStatus.OK;
+        
+        return httpStatus;
+        
     }
 }
