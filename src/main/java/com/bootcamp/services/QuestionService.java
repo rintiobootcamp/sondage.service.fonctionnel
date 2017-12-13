@@ -2,16 +2,16 @@ package com.bootcamp.services;
 
 import com.bootcamp.commons.constants.DatabaseConstants;
 import com.bootcamp.commons.models.Criteria;
+import com.bootcamp.commons.models.Criterias;
 import com.bootcamp.commons.models.Rule;
 import com.bootcamp.commons.ws.usecases.pivotone.QuestionWS;
 import com.bootcamp.crud.QuestionCRUD;
 import com.bootcamp.entities.Question;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by darextossa on 11/27/17.
@@ -19,28 +19,28 @@ import java.util.List;
 @Component
 public class QuestionService implements DatabaseConstants {
 
-    public  void  create(Question question) throws SQLException {
+    public void create(Question question) throws SQLException {
         question.setDateCreation(System.currentTimeMillis());
         question.setDateMiseAJour(System.currentTimeMillis());
 
         QuestionCRUD.create(question);
         //return question;
     }
-    
+
     public Question update(Question question) throws SQLException {
         question.setDateMiseAJour(System.currentTimeMillis());
-        
+
         QuestionCRUD.update(question);
         return question;
     }
-    
-    public void participer(Question question, String reponse) throws SQLException{
-        for (HashMap<String,Long> map : question.getTypeReponses()) {
-         if(map.containsKey(reponse))  {
-             Long l = map.get(reponse);
-             map.put(reponse, ++l);
-             QuestionCRUD.update(question);
-         } 
+
+    public void participer(Question question, String reponse) throws SQLException {
+        for (HashMap<String, Long> map : question.getTypeReponses()) {
+            if (map.containsKey(reponse)) {
+                Long l = map.get(reponse);
+                map.put(reponse, ++l);
+                QuestionCRUD.update(question);
+            }
         }
     }
 
@@ -64,10 +64,27 @@ public class QuestionService implements DatabaseConstants {
 
     public List<Question> readAll() throws SQLException {
         List<Question> questions = QuestionCRUD.read();
-        
+
         return questions;
     }
 
+    public Question read(int id) throws SQLException {
+        Criterias criterias = new Criterias();
+        Rule rule = new Rule();
+        rule.setColumn("id");
+        rule.setOperator("=");
+        rule.setValue(id);
+
+        Criteria criteria = new Criteria();
+        criteria.setRule(rule);
+        criteria.setEntityClass(Question.class);
+        criterias.addCriteria(criteria);
+
+        List<Question> questions = QuestionCRUD.read(criterias);
+
+
+        return questions.get(0);
+    }
 
 //    private List<QuestionUWs> convertPilerToQuestionUWS(List<Question> questions){
 //        List<QuestionUWs> questionUWss = new ArrayList<>();
