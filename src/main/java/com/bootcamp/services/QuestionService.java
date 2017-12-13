@@ -7,7 +7,6 @@ import com.bootcamp.commons.models.Rule;
 import com.bootcamp.commons.ws.usecases.pivotone.QuestionWS;
 import com.bootcamp.crud.QuestionCRUD;
 import com.bootcamp.entities.Question;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
