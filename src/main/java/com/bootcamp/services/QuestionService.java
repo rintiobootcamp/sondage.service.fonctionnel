@@ -7,6 +7,8 @@ import com.bootcamp.commons.models.Rule;
 import com.bootcamp.commons.ws.usecases.pivotone.QuestionWS;
 import com.bootcamp.crud.QuestionCRUD;
 import com.bootcamp.entities.Question;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ import java.util.*;
  */
 @Component
 public class QuestionService implements DatabaseConstants {
-
+    private static Logger logger = LogManager.getLogger(QuestionService.class);
     public void create(Question question) throws SQLException {
         question.setDateCreation(System.currentTimeMillis());
         question.setDateMiseAJour(System.currentTimeMillis());
@@ -33,18 +35,19 @@ public class QuestionService implements DatabaseConstants {
         return question;
     }
 
+
     public void participer(Question question, String reponse) throws SQLException {
 
-
-            if (question.getTypeReponses().containsKey(reponse)) {
-                Long l = question.getTypeReponses().get(reponse);
-                HashMap lareponse=new HashMap();
-                lareponse.put(reponse,++l);
-                question.setTypeReponses(lareponse);
-                QuestionCRUD.update(question);
-            }
+        HashMap<String,Long> typeReponses =  question.getTypeReponses();
+        if (typeReponses.containsKey(reponse)) {
+            Long l = typeReponses.get(reponse);
+            l = l + 1;
+            typeReponses.put(reponse, l);
+            question.setTypeReponses(typeReponses);
+            logger.debug("-------------------- " + question.getTypeReponses().toString());
+            QuestionCRUD.update(question);
         }
-
+    }
 
     public Question delete(Question question) throws SQLException {
         QuestionCRUD.delete(question);
