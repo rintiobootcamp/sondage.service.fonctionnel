@@ -34,14 +34,17 @@ public class QuestionService implements DatabaseConstants {
     }
 
     public void participer(Question question, String reponse) throws SQLException {
-        for (HashMap<String, Long> map : question.getTypeReponses()) {
-            if (map.containsKey(reponse)) {
-                Long l = map.get(reponse);
-                map.put(reponse, ++l);
+
+
+            if (question.getTypeReponses().containsKey(reponse)) {
+                Long l = question.getTypeReponses().get(reponse);
+                HashMap lareponse=new HashMap();
+                lareponse.put(reponse,++l);
+                question.setTypeReponses(lareponse);
                 QuestionCRUD.update(question);
             }
         }
-    }
+
 
     public Question delete(Question question) throws SQLException {
         QuestionCRUD.delete(question);

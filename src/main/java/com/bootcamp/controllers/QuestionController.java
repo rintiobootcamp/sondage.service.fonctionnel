@@ -57,15 +57,15 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.POST, value="/{idQuestion}/{reponse}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a post for a question", notes = "Create a post for a question")
-    public HttpStatus particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
+    public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
 
         //String reponse = request.getQueryString();
         Question question = questionService.read(idQuestion);
         questionService.participer(question, reponse);
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
-        
-        return httpStatus;
+
+        return new ResponseEntity<>(question, httpStatus);
         
     }
 }
