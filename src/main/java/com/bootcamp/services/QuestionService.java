@@ -1,6 +1,7 @@
 package com.bootcamp.services;
 
 import com.bootcamp.commons.constants.DatabaseConstants;
+import com.bootcamp.commons.enums.EntityType;
 import com.bootcamp.commons.models.Criteria;
 import com.bootcamp.commons.models.Criterias;
 import com.bootcamp.commons.models.Rule;
@@ -71,6 +72,12 @@ public class QuestionService implements DatabaseConstants {
         List<Question> questions = QuestionCRUD.read();
 
         return questions;
+    }
+    
+      public int getAllQuestionByEntity(EntityType entityType) throws SQLException {
+        Criterias criterias = new Criterias();
+        criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
+        return QuestionCRUD.read(criterias).size();
     }
 
     public Question read(int id) throws SQLException {

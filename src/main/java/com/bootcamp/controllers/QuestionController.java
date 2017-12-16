@@ -1,5 +1,6 @@
 package com.bootcamp.controllers;
 
+import com.bootcamp.commons.enums.EntityType;
 import com.bootcamp.entities.Question;
 import com.bootcamp.services.QuestionService;
 import com.bootcamp.version.ApiVersions;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @RestController("QuestionController")
@@ -52,6 +55,25 @@ public class QuestionController {
         httpStatus = HttpStatus.OK;
 
         return new ResponseEntity<>(questions, httpStatus);
+    }
+    
+        @RequestMapping(method = RequestMethod.GET, value = "/stats/{entityType}")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Read all debat on entity", notes = "Read all debat on entity")
+    public ResponseEntity<Integer> readAllQuestionByEntity(@PathVariable("entityType") String entityType ) {
+        EntityType entite = EntityType.valueOf(entityType);
+        int nbQuestion =0;
+        HttpStatus httpStatus = null;
+
+        try {
+            nbQuestion = questionService.getAllQuestionByEntity(entite);
+            httpStatus = HttpStatus.OK;
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionController.class.getName()).log(Level.SEVERE, null, ex);
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Integer>(nbQuestion, httpStatus);
+
     }
     
     @RequestMapping(method = RequestMethod.POST, value="/{idQuestion}/{reponse}")
