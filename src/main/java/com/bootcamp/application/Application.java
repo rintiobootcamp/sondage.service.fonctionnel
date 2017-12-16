@@ -34,7 +34,7 @@ import java.util.Locale;
         @PropertySource(value = "classpath:/sondage.sf.properties", ignoreResourceNotFound = true),
 })
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, FlywayAutoConfiguration.class})
-@EnableCaching
+//@EnableCaching
 public class Application extends SpringBootServletInitializer {
 
     private static Logger logger = LogManager.getLogger(Application.class);

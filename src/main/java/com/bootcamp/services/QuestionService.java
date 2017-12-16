@@ -36,17 +36,22 @@ public class QuestionService implements DatabaseConstants {
     }
 
 
-    public void participer(Question question, String reponse) throws SQLException {
+    public Question participer(Question question, String reponse) throws SQLException {
 
         HashMap<String,Long> typeReponses =  question.getTypeReponses();
-        if (typeReponses.containsKey(reponse)) {
-            Long l = typeReponses.get(reponse);
+  //      if (typeReponses.containsKey(reponse)) {
+           logger.debug("*********************** "+ reponse+"  " + question.getTypeReponses().toString());
+           Long l = typeReponses.get(reponse);
+            logger.debug("++++++++++++++++++++++++++++++++  " + l);
             l = l + 1;
+            logger.debug("#####################################  " + l);      
             typeReponses.put(reponse, l);
             question.setTypeReponses(typeReponses);
             logger.debug("-------------------- " + question.getTypeReponses().toString());
             QuestionCRUD.update(question);
-        }
+  
+//      }
+    return question;
     }
 
     public Question delete(Question question) throws SQLException {
@@ -73,17 +78,22 @@ public class QuestionService implements DatabaseConstants {
         return questions;
     }
 
-    public Question read(int id) throws SQLException {
-        Criterias criterias = new Criterias();
-        Rule rule = new Rule();
-        rule.setColumn("id");
-        rule.setOperator("=");
-        rule.setValue(id);
+    public Question read(Long id) throws SQLException {
+//        Criterias criterias = new Criterias();
+ //       Rule rule = new Rule();
+//        rule.setColumn("id");
+//        rule.setOperator("=");
+//        rule.setValue(id);
 
-        Criteria criteria = new Criteria();
-        criteria.setRule(rule);
-        criteria.setEntityClass(Question.class);
-        criterias.addCriteria(criteria);
+//        Criteria criteria = new Criteria();
+//        criteria.setRule(rule);
+//        criteria.setEntityClass(Question.class);
+//        criterias.addCriteria(criteria);
+
+
+
+            Criterias criterias = new Criterias();
+        criterias.addCriteria(new Criteria("id","=", id));
 
         List<Question> questions = QuestionCRUD.read(criterias);
 

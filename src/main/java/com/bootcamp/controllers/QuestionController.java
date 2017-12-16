@@ -54,18 +54,30 @@ public class QuestionController {
         return new ResponseEntity<>(questions, httpStatus);
     }
     
-    @RequestMapping(method = RequestMethod.POST, value="/{idQuestion}/{reponse}")
+    @RequestMapping(method = RequestMethod.PUT, value="/{idQuestion}/{reponse}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a post for a question", notes = "Create a post for a question")
-    public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
+    public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") Long idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
 
         //String reponse = request.getQueryString();
         Question question = questionService.read(idQuestion);
-        questionService.participer(question, reponse);
+        question = questionService.participer(question, reponse);
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
 
         return new ResponseEntity<>(question, httpStatus);
         
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Update a new question", notes = "Update a new question")
+    public ResponseEntity<Question> update(@RequestBody @Valid Question question) throws SQLException {
+
+        HttpStatus httpStatus = null;
+
+        questionService.update(question);
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<>(question, httpStatus);
     }
 }
