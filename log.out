@@ -1,0 +1,47 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.bootcamp:SondageRestServices:war:1.0-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-compiler-plugin is missing. @ line 225, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building SondageRestServices 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:1.5.3.RELEASE:run (default-cli) > test-compile @ SondageRestServices >>>
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ SondageRestServices ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ibrahim/release4/sondage.service.fonctionnel/src/main/resources
+[INFO] Copying 18 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ SondageRestServices ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 9 source files to /home/ibrahim/release4/sondage.service.fonctionnel/target/classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /home/ibrahim/release4/sondage.service.fonctionnel/src/main/java/com/bootcamp/services/QuestionService.java:[38,65] incompatible types: com.bootcamp.entities.TypeReponse cannot be converted to java.util.HashMap<java.lang.String,java.lang.Long>
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 9.059 s
+[INFO] Finished at: 2017-12-11T08:21:03+01:00
+[INFO] Final Memory: 24M/176M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project SondageRestServices: Compilation failure
+[ERROR] /home/ibrahim/release4/sondage.service.fonctionnel/src/main/java/com/bootcamp/services/QuestionService.java:[38,65] incompatible types: com.bootcamp.entities.TypeReponse cannot be converted to java.util.HashMap<java.lang.String,java.lang.Long>
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
