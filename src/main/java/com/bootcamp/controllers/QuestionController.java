@@ -1,6 +1,7 @@
 package com.bootcamp.controllers;
 
 import com.bootcamp.commons.enums.EntityType;
+import com.bootcamp.commons.ws.usecases.pivotone.TypeReponseWS;
 import com.bootcamp.entities.Question;
 import com.bootcamp.services.QuestionService;
 import com.bootcamp.version.ApiVersions;
@@ -83,10 +84,9 @@ public class QuestionController {
 
         //String reponse = request.getQueryString();
         Question question = questionService.read(idQuestion);
-        questionService.participer(question, reponse);
+        question=questionService.participer(question, reponse);
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
-
         return new ResponseEntity<>(question, httpStatus);
         
     }

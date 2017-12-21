@@ -37,7 +37,7 @@ public class QuestionService implements DatabaseConstants {
     }
 
 
-    public void participer(Question question, String reponse) throws SQLException {
+    public Question participer(Question question, String reponse) throws SQLException {
 
         HashMap<String,Long> typeReponses =  question.getTypeReponses();
         if (typeReponses.containsKey(reponse)) {
@@ -48,6 +48,7 @@ public class QuestionService implements DatabaseConstants {
             logger.debug("-------------------- " + question.getTypeReponses().toString());
             QuestionCRUD.update(question);
         }
+        return question;
     }
 
     public Question delete(Question question) throws SQLException {
