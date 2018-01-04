@@ -16,32 +16,50 @@
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ SondageRestServices ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /home/ibrahim/release4/sondage.service.fonctionnel/src/main/resources
-[INFO] Copying 18 resources
+[INFO] skip non existing resourceDirectory /home/iso-doss/Bootcamp/Clone/sondage.service.fonctionnel/src/main/resources
+[INFO] Copying 20 resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ SondageRestServices ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 9 source files to /home/ibrahim/release4/sondage.service.fonctionnel/target/classes
-[INFO] -------------------------------------------------------------
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] /home/ibrahim/release4/sondage.service.fonctionnel/src/main/java/com/bootcamp/services/QuestionService.java:[38,65] incompatible types: com.bootcamp.entities.TypeReponse cannot be converted to java.util.HashMap<java.lang.String,java.lang.Long>
-[INFO] 1 error
-[INFO] -------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 9.059 s
-[INFO] Finished at: 2017-12-11T08:21:03+01:00
-[INFO] Final Memory: 24M/176M
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project SondageRestServices: Compilation failure
-[ERROR] /home/ibrahim/release4/sondage.service.fonctionnel/src/main/java/com/bootcamp/services/QuestionService.java:[38,65] incompatible types: com.bootcamp.entities.TypeReponse cannot be converted to java.util.HashMap<java.lang.String,java.lang.Long>
-[ERROR] 
-[ERROR] -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[INFO] Compiling 9 source files to /home/iso-doss/Bootcamp/Clone/sondage.service.fonctionnel/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ SondageRestServices ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/iso-doss/Bootcamp/Clone/sondage.service.fonctionnel/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ SondageRestServices ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /home/iso-doss/Bootcamp/Clone/sondage.service.fonctionnel/target/test-classes
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:1.5.3.RELEASE:run (default-cli) < test-compile @ SondageRestServices <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:1.5.3.RELEASE:run (default-cli) @ SondageRestServices ---
+2018-01-03 16:16:24,899 main ERROR appenders contains an invalid element or attribute "Sentry"
+2018-01-03 16:16:24,927 main ERROR Unable to locate appender "Sentry" for logger config "org.springframework"
+2018-01-03 16:16:24,943 main ERROR Unable to locate appender "Sentry" for logger config "com.bootcamp"
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/iso-doss/env/maven/repository/org/slf4j/slf4j-log4j12/1.7.12/slf4j-log4j12-1.7.12.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/iso-doss/env/maven/repository/org/apache/logging/log4j/log4j-slf4j-impl/2.7/log4j-slf4j-impl-2.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+log4j:WARN No appenders could be found for logger (org.springframework.web.context.support.StandardServletEnvironment).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+2018-01-03 16:16:30,111 main ERROR appenders contains an invalid element or attribute "Sentry"
+2018-01-03 16:16:30,116 main ERROR Unable to locate appender "Sentry" for logger config "org.springframework"
+2018-01-03 16:16:30,117 main ERROR Unable to locate appender "Sentry" for logger config "com.bootcamp"
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v1.5.8.RELEASE)
+
+2018-01-03 16:16:37.599 WAT [background-preinit] o.h.v.i.u.Version INFO : HV000001: Hibernate Validator 5.3.5.Final
+[EL Info]: 2018-01-03 16:20:49.57--ServerSession(1615970336)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
+[EL Info]: connection: 2018-01-03 16:21:09.352--ServerSession(1615970336)--file:/home/iso-doss/Bootcamp/Clone/sondage.service.fonctionnel/target/classes/_databasePU login successful
+[EL Info]: 2018-01-03 16:25:26.408--ServerSession(1722283282)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
+[EL Info]: connection: 2018-01-03 16:25:28.295--ServerSession(1722283282)--file:/home/iso-doss/env/maven/repository/com/bootcamp/db-access/1.0-SNAPSHOT/db-access-1.0-SNAPSHOT.jar_databasePU login successful
