@@ -4,6 +4,7 @@ import com.bootcamp.commons.enums.EntityType;
 import com.bootcamp.commons.ws.usecases.pivotone.TypeReponseWS;
 import com.bootcamp.entities.Question;
 import com.bootcamp.services.QuestionService;
+import com.bootcamp.services.StatQuestion;
 import com.bootcamp.version.ApiVersions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -79,7 +80,7 @@ public class QuestionController {
     
     @RequestMapping(method = RequestMethod.POST, value="/{idQuestion}/{reponse}")
     @ApiVersions({"1.0"})
-    @ApiOperation(value = "Create a post for a question", notes = "Create a post for a question")
+    @ApiOperation(value = "Create a response for a question", notes = "Create a response for a question")
     public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
 
         //String reponse = request.getQueryString();
@@ -90,4 +91,27 @@ public class QuestionController {
         return new ResponseEntity<>(question, httpStatus);
         
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value="/count")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Count number of Questions", notes = "Count number of Questions")
+    public ResponseEntity<Integer> count() throws SQLException {
+        int count = questionService.countQuestion();
+        HttpStatus httpStatus = null;
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<>(count, httpStatus);
+        
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value="/statistiques/{idSondage}")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Get statistiques for Sondage", notes = "Get statistiques for Sondage")
+    public ResponseEntity<StatQuestion> getStatQuestion(@PathVariable(name = "idSondage") int idQuestion) throws SQLException {
+        StatQuestion statQuestion = questionService.getStatQuestion(idQuestion);
+        HttpStatus httpStatus = null;
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<StatQuestion>(statQuestion, httpStatus);
+        
+    }
+    
 }
