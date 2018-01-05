@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -119,63 +120,80 @@ public class QuestionService implements DatabaseConstants {
     
     public StatQuestion getStatQuestion(int idQuestion) throws SQLException {
         
-        
-        
         StatQuestion statQuestion = new StatQuestion();
         
         QuestionService questionService = new QuestionService();
         Question question = questionService.read(idQuestion);
         HashMap<String,Long> typeReponses =  question.getTypeReponses();
         
-        Long nombreReponseValeur1 = typeReponses.get("oui");
-        Long nombreReponseValeur2 = typeReponses.get("non");
-        Long nombreReponseValeur3 = typeReponses.get("autre");
-        
-        Long nombreReponse = nombreReponseValeur1+nombreReponseValeur2+nombreReponseValeur3;
-        
-        double pourcentageNombreReponseValeur1 = (double)nombreReponseValeur1/(double)nombreReponse;
-        double pourcentageNombreReponseValeur2 = (double)nombreReponseValeur2/(double)nombreReponse;
-        double pourcentageNombreReponseValeur3 = (double)nombreReponseValeur3/(double)nombreReponse;
-//        List<Long> valeurs = (List<Long>) typeReponses.values();
-//        for (valeurs valeur : val) {
-//            
-//        }
-        
-//        if ( n.toString()=="" || n.toString()==" "  || n.toString()=="0" ) {
-//            statQuestion.setNombreReponse(0);
-//            statQuestion.setNombreReponseValeur1(nombreReponseValeur1);
-//            statQuestion.setNombreReponseValeur2(nombreReponseValeur2);
-//            statQuestion.setNombreReponseValeur3(nombreReponseValeur3);
-//            statQuestion.setPourcentageNombreReponseValeur1(pourcentageNombreReponseValeur1);
-//            statQuestion.setPourcentageNombreReponseValeur2(pourcentageNombreReponseValeur2);
-//            statQuestion.setPourcentageNombreReponseValeur3(pourcentageNombreReponseValeur3);
-//        } else {
-            statQuestion.setNombreReponse(nombreReponse);
-            statQuestion.setNombreReponseValeur1(nombreReponseValeur1);
-            statQuestion.setNombreReponseValeur2(nombreReponseValeur2);
-            statQuestion.setNombreReponseValeur3(nombreReponseValeur3);
-            statQuestion.setPourcentageNombreReponseValeur1(pourcentageNombreReponseValeur1);
-            statQuestion.setPourcentageNombreReponseValeur2(pourcentageNombreReponseValeur2);
-            statQuestion.setPourcentageNombreReponseValeur3(pourcentageNombreReponseValeur3);
-//        }
-        
-        
-//        for (HashMap.Entry<String, Long> entry : typeReponses.entrySet()) {
+//        for (Map.Entry<String, Long> entry : typeReponses.entrySet()) {
 //            String key = entry.getKey();
-//            Long valeur = entry.getValue();
+//            Long value = entry.getValue();
 //            
 //        }
+
+        Long nombreReponse = 0L;
+        HashMap<String,Long> valeurReponse = new HashMap<>();
+        HashMap<String,Double> pourcentageValeurReponse = new HashMap<>();
         
-//        statQuestion.getTypeReponses();
-//        int nombreReponse = question.getTypeReponses().size();
+        for (String s : typeReponses.keySet()) {
+            String key = s;
+            Long value = typeReponses.get(s);
+            valeurReponse.put(key, value);
+            nombreReponse+=value;
+            
+        }
         
-//        Criterias criterias = new Criterias();
-//        criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
-//        return QuestionCRUD.read(criterias).size();
+        for (String s : typeReponses.keySet()) {
+            String key = s;
+            Long value = typeReponses.get(s);
+            if ((double)nombreReponse == 0) {
+                pourcentageValeurReponse.put(key, arrondi(0, 4));
+            } else {
+                pourcentageValeurReponse.put(key, arrondi((double)value/(double)nombreReponse, 4));
+            }
+        }
+        
+//        nombreReponse = 0L;
+//        for (String s : typeReponses.keySet()) {
+//            System.out.print(typeReponses.get(s)+"\n");
+//            nombreReponse+=typeReponses.get(s);
+//        }
+//        System.out.println("-------\n"+nombreReponse);
+
+        
+        statQuestion.setNombreReponse(nombreReponse);
+        statQuestion.setValeurReponse(valeurReponse);
+        statQuestion.setPourcentageValeurReponse(pourcentageValeurReponse);
 
         
         return statQuestion;
     }
     
-
+    
+    /**
+     * Check if a question exists
+     *
+     * @param id
+     * @return a boolean
+     * @throws Exception
+     */
+    public boolean exists(int id) throws Exception {
+        Question question = read(id);
+        if (question != null) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * rounded a double number
+     *
+     * @param double, int
+     * @return a double
+     */
+    public static double arrondi(double A, int B) {
+        return (double) ( (int) (A * Math.pow(10, B) + 0.5)) / Math.pow(10, B);
+    }
+    
 }

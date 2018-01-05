@@ -1,0 +1,67 @@
+[
+  {
+    "id":1,
+    "entityType": "AXE",
+    "entityId": 2,
+    "dateCreation": 15745554,
+    "dateMiseAJour": 13588528,
+    "sujet": "string",
+    "typeReponses": {
+        "oui":0,
+        "non":5,
+        "autre":7
+    }
+  },
+  {
+    "id":2,
+    "entityType" : "PROJET",
+    "entityId" : 5,
+    "dateCreation" : 1511907390,
+    "dateMiseAJour" : 1511907379,
+    "sujet": "string",
+    "typeReponses": {
+        "oui":0,
+        "non":5,
+        "autre":7
+    }
+  },
+  {
+    "id":3,
+    "entityType" : "SECTEUR",
+    "entityId" : 2,
+    "dateCreation" : 1511907379,
+    "dateMiseAJour" : 1511907379,
+    "sujet": "string",
+    "typeReponses": {
+        "oui":10,
+        "non":5,
+        "autre":17
+    }
+  },
+  {
+    "id":4,
+    "entityType" : "AXE",
+    "entityId" : 3,
+    "dateCreation" : 1511907379,
+    "dateMiseAJour" : 1511907379,
+    "sujet": "string",
+    "typeReponses": {
+        "oui":0,
+        "non":2,
+        "autre":1
+    }
+  },
+  {
+    "id":5,
+    "entityType" : "PILIER",
+    "entityId" : 2,
+    "dateCreation" : 1511907379,
+    "dateMiseAJour" : 1511907379,
+    "sujet": "string",
+    "typeReponses": {
+        "oui":0,
+        "non":0,
+        "autre":0
+    }
+  }
+]

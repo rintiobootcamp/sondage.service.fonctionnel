@@ -5,7 +5,7 @@
  */
 package com.bootcamp.services;
 
-import com.bootcamp.commons.ws.usecases.pivotone.TypeReponseWS;
+import java.util.HashMap;
 
 /**
  *
@@ -13,14 +13,8 @@ import com.bootcamp.commons.ws.usecases.pivotone.TypeReponseWS;
  */
 public class StatQuestion {
     private Long nombreReponse;
-    private Long nombreReponseValeur1;
-    private Long nombreReponseValeur2;
-    private Long nombreReponseValeur3;
-    private double pourcentageNombreReponseValeur1;
-    private double pourcentageNombreReponseValeur2;
-    private double pourcentageNombreReponseValeur3;
-    
-//    TypeReponseWS typeReponseWS;
+    private HashMap<String,Long> valeurReponse;
+    private HashMap<String,Double> pourcentageValeurReponse;
 
     public Long getNombreReponse() {
         return nombreReponse;
@@ -30,53 +24,22 @@ public class StatQuestion {
         this.nombreReponse = nombreReponse;
     }
 
-    public Long getNombreReponseValeur1() {
-        return nombreReponseValeur1;
+    public HashMap<String, Long> getValeurReponse() {
+        return valeurReponse;
     }
 
-    public void setNombreReponseValeur1(Long nombreReponseValeur1) {
-        this.nombreReponseValeur1 = nombreReponseValeur1;
+    public void setValeurReponse(HashMap<String, Long> valeurReponse) {
+        this.valeurReponse = valeurReponse;
     }
 
-    public Long getNombreReponseValeur2() {
-        return nombreReponseValeur2;
+    public HashMap<String, Double> getPourcentageValeurReponse() {
+        return pourcentageValeurReponse;
     }
 
-    public void setNombreReponseValeur2(Long nombreReponseValeur2) {
-        this.nombreReponseValeur2 = nombreReponseValeur2;
+    public void setPourcentageValeurReponse(HashMap<String, Double> pourcentageValeurReponse) {
+        this.pourcentageValeurReponse = pourcentageValeurReponse;
     }
-
-    public Long getNombreReponseValeur3() {
-        return nombreReponseValeur3;
-    }
-
-    public void setNombreReponseValeur3(Long nombreReponseValeur3) {
-        this.nombreReponseValeur3 = nombreReponseValeur3;
-    }
-
-    public double getPourcentageNombreReponseValeur1() {
-        return pourcentageNombreReponseValeur1;
-    }
-
-    public void setPourcentageNombreReponseValeur1(double pourcentageNombreReponseValeur1) {
-        this.pourcentageNombreReponseValeur1 = pourcentageNombreReponseValeur1;
-    }
-
-    public double getPourcentageNombreReponseValeur2() {
-        return pourcentageNombreReponseValeur2;
-    }
-
-    public void setPourcentageNombreReponseValeur2(double pourcentageNombreReponseValeur2) {
-        this.pourcentageNombreReponseValeur2 = pourcentageNombreReponseValeur2;
-    }
-
-    public double getPourcentageNombreReponseValeur3() {
-        return pourcentageNombreReponseValeur3;
-    }
-
-    public void setPourcentageNombreReponseValeur3(double pourcentageNombreReponseValeur3) {
-        this.pourcentageNombreReponseValeur3 = pourcentageNombreReponseValeur3;
-    }
+    
     
     
 }
