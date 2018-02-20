@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 @RestController("QuestionController")
 @RequestMapping("/sondages")
 @Api(value = "Question API", description = "Question API")
@@ -29,7 +28,7 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
-    
+
 //    @Autowired
 //    TypeReponseService questionService;
     @Autowired
@@ -41,10 +40,22 @@ public class QuestionController {
     public ResponseEntity<Question> create(@RequestBody @Valid Question question) throws SQLException {
 //
         HttpStatus httpStatus = null;
-       
-            questionService.create(question);
-            httpStatus = HttpStatus.OK;
+
+        questionService.create(question);
+        httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(question, httpStatus);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value="/{idQuestion}")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Delete a question", notes = "Create a question")
+    public ResponseEntity<Boolean> delete(@PathVariable("idQuestion") int idQuestion) throws SQLException {
+//
+        HttpStatus httpStatus = null;
+
+        boolean b = questionService.delete(idQuestion);
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<>(b, httpStatus);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -58,13 +69,13 @@ public class QuestionController {
 
         return new ResponseEntity<>(questions, httpStatus);
     }
-    
-        @RequestMapping(method = RequestMethod.GET, value = "/stats/{entityType}")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/stats/{entityType}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read all debat on entity", notes = "Read all debat on entity")
-    public ResponseEntity<Integer> readAllQuestionByEntity(@PathVariable("entityType") String entityType ) {
+    public ResponseEntity<Integer> readAllQuestionByEntity(@PathVariable("entityType") String entityType) {
         EntityType entite = EntityType.valueOf(entityType);
-        int nbQuestion =0;
+        int nbQuestion = 0;
         HttpStatus httpStatus = null;
 
         try {
@@ -77,22 +88,22 @@ public class QuestionController {
         return new ResponseEntity<Integer>(nbQuestion, httpStatus);
 
     }
-    
-    @RequestMapping(method = RequestMethod.POST, value="/{idQuestion}/{reponse}")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{idQuestion}/{reponse}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a response for a question", notes = "Create a response for a question")
     public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
 
         //String reponse = request.getQueryString();
         Question question = questionService.read(idQuestion);
-        question=questionService.participer(question, reponse);
+        question = questionService.participer(question, reponse);
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(question, httpStatus);
-        
+
     }
-    
-    @RequestMapping(method = RequestMethod.GET, value="/count")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/count")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Count number of Questions", notes = "Count number of Questions")
     public ResponseEntity<Integer> count() throws SQLException {
@@ -100,10 +111,10 @@ public class QuestionController {
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(count, httpStatus);
-        
+
     }
-    
-    @RequestMapping(method = RequestMethod.GET, value="/statistiques/{idSondage}")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/statistiques/{idSondage}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Get statistiques for Sondage", notes = "Get statistiques for Sondage")
     public ResponseEntity<StatQuestion> getStatQuestion(@PathVariable(name = "idSondage") int idQuestion) throws SQLException {
@@ -111,7 +122,7 @@ public class QuestionController {
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
         return new ResponseEntity<StatQuestion>(statQuestion, httpStatus);
-        
+
     }
-    
+
 }

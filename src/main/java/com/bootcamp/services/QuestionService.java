@@ -16,16 +16,19 @@ import org.springframework.stereotype.Component;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Created by darextossa on 11/27/17.
  */
 @Component
 public class QuestionService implements DatabaseConstants {
+
     QuestionWS questionWS;
     TypeReponseWS typeReponseWS;
-    
+
     private static Logger logger = LogManager.getLogger(QuestionService.class);
+
     public void create(Question question) throws SQLException {
         question.setDateCreation(System.currentTimeMillis());
         question.setDateMiseAJour(System.currentTimeMillis());
@@ -41,10 +44,9 @@ public class QuestionService implements DatabaseConstants {
         return question;
     }
 
-
     public Question participer(Question question, String reponse) throws SQLException {
 
-        HashMap<String,Long> typeReponses =  question.getTypeReponses();
+        HashMap<String, Long> typeReponses = question.getTypeReponses();
         if (typeReponses.containsKey(reponse)) {
             Long l = typeReponses.get(reponse);
             l = l + 1;
@@ -61,6 +63,19 @@ public class QuestionService implements DatabaseConstants {
         return question;
     }
 
+    public boolean delete(int id) {
+        Question question;
+        try {
+            question = this.read(id);
+            this.delete(question);
+            return true;
+        } catch (SQLException ex) {
+            logger.info(ex.getSQLState());
+            return false;
+        }
+
+    }
+
 //    public QuestionWS toQuestionWS(Question question) throws SQLException {
 //        TypeReponseService typeReponseService = new TypeReponseService();
 //        QuestionWS questionWS = new QuestionWS();
@@ -73,13 +88,12 @@ public class QuestionService implements DatabaseConstants {
 //        questionWS.setReponsesType(typeReponseService.getByQuestion(question));
 //        return questionWS;
 //    }
-
     public List<Question> readAll() throws SQLException {
         List<Question> questions = QuestionCRUD.read();
 
         return questions;
     }
-    
+
     public int getAllQuestionByEntity(EntityType entityType) throws SQLException {
         Criterias criterias = new Criterias();
         criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
@@ -100,7 +114,6 @@ public class QuestionService implements DatabaseConstants {
 
         List<Question> questions = QuestionCRUD.read(criterias);
 
-
         return questions.get(0);
     }
 
@@ -110,67 +123,61 @@ public class QuestionService implements DatabaseConstants {
 //           QuestionUWs questionUWs = new QuestionUWs();
 //        }
 //    }
-    
-    public int countQuestion () throws SQLException{
-        
+    public int countQuestion() throws SQLException {
+
         int count = QuestionCRUD.read().size();
-        
+
         return count;
     }
-    
+
     public StatQuestion getStatQuestion(int idQuestion) throws SQLException {
-        
+
         StatQuestion statQuestion = new StatQuestion();
-        
+
         QuestionService questionService = new QuestionService();
         Question question = questionService.read(idQuestion);
-        HashMap<String,Long> typeReponses =  question.getTypeReponses();
-        
+        HashMap<String, Long> typeReponses = question.getTypeReponses();
+
 //        for (Map.Entry<String, Long> entry : typeReponses.entrySet()) {
 //            String key = entry.getKey();
 //            Long value = entry.getValue();
 //            
 //        }
-
         Long nombreReponse = 0L;
-        HashMap<String,Long> valeurReponse = new HashMap<>();
-        HashMap<String,Double> pourcentageValeurReponse = new HashMap<>();
-        
+        HashMap<String, Long> valeurReponse = new HashMap<>();
+        HashMap<String, Double> pourcentageValeurReponse = new HashMap<>();
+
         for (String s : typeReponses.keySet()) {
             String key = s;
             Long value = typeReponses.get(s);
             valeurReponse.put(key, value);
-            nombreReponse+=value;
-            
+            nombreReponse += value;
+
         }
-        
+
         for (String s : typeReponses.keySet()) {
             String key = s;
             Long value = typeReponses.get(s);
-            if ((double)nombreReponse == 0) {
+            if ((double) nombreReponse == 0) {
                 pourcentageValeurReponse.put(key, arrondi(0, 4));
             } else {
-                pourcentageValeurReponse.put(key, arrondi((double)value/(double)nombreReponse, 4));
+                pourcentageValeurReponse.put(key, arrondi((double) value / (double) nombreReponse, 4));
             }
         }
-        
+
 //        nombreReponse = 0L;
 //        for (String s : typeReponses.keySet()) {
 //            System.out.print(typeReponses.get(s)+"\n");
 //            nombreReponse+=typeReponses.get(s);
 //        }
 //        System.out.println("-------\n"+nombreReponse);
-
-        
         statQuestion.setNombreReponse(nombreReponse);
         statQuestion.setValeurReponse(valeurReponse);
         statQuestion.setPourcentageValeurReponse(pourcentageValeurReponse);
 
-        
         return statQuestion;
     }
-    
-    
+
     /**
      * Check if a question exists
      *
@@ -185,7 +192,7 @@ public class QuestionService implements DatabaseConstants {
         }
         return false;
     }
-    
+
     /**
      * rounded a double number
      *
@@ -193,7 +200,7 @@ public class QuestionService implements DatabaseConstants {
      * @return a double
      */
     public static double arrondi(double A, int B) {
-        return (double) ( (int) (A * Math.pow(10, B) + 0.5)) / Math.pow(10, B);
+        return (double) ((int) (A * Math.pow(10, B) + 0.5)) / Math.pow(10, B);
     }
-    
+
 }
