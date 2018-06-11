@@ -5,7 +5,7 @@
     <groupId>com.bootcamp</groupId>
     <artifactId>SondageRestServices</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>SondageRestServices</name>
     <url>http://maven.apache.org</url>
@@ -272,23 +272,20 @@
     </profiles>
 
     <build>
+        <finalName>sfsondage</finalName>
         <plugins>
             <!-- Package as an executable jar/war -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.3.RELEASE</version>
-                <!--<configuration>-->
-                    <!--<mainClass>com.bootcamp.application.Application</mainClass>-->
-                    <!--<layout>ZIP</layout>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>repackage</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
