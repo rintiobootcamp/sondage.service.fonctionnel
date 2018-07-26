@@ -34,10 +34,20 @@ public class QuestionController {
     @Autowired
     HttpServletRequest request;
 
+    @RequestMapping(value = "/elasticdata",method = RequestMethod.GET)
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Create Elasticsearch indexes", notes = "Create Elasticsearch indexes")
+    public ResponseEntity<String> createIndexs() throws Exception {
+        String retour = "NOT DONE";
+        if (questionService.createAllIndexQuestion())
+            retour = "DONE";
+        return new ResponseEntity<>(retour, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a new question", notes = "Create a new question")
-    public ResponseEntity<Question> create(@RequestBody @Valid Question question) throws SQLException {
+    public ResponseEntity<Question> create(@RequestBody @Valid Question question) throws Exception {
 //
         HttpStatus httpStatus = null;
 
@@ -49,7 +59,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.DELETE, value="/{idQuestion}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Delete a question", notes = "Create a question")
-    public ResponseEntity<Boolean> delete(@PathVariable("idQuestion") int idQuestion) throws SQLException {
+    public ResponseEntity<Boolean> delete(@PathVariable("idQuestion") int idQuestion) throws Exception {
 //
         HttpStatus httpStatus = null;
 
@@ -61,7 +71,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET)
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read all the questions", notes = "Read all the questions")
-    public ResponseEntity<List<Question>> read() throws SQLException {
+    public ResponseEntity<List<Question>> read() throws Exception {
 
         HttpStatus httpStatus = null;
         List<Question> questions = questionService.readAll();
@@ -73,7 +83,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET, value = "/stats/{entityType}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read all debat on entity", notes = "Read all debat on entity")
-    public ResponseEntity<Integer> readAllQuestionByEntity(@PathVariable("entityType") String entityType) {
+    public ResponseEntity<Integer> readAllQuestionByEntity(@PathVariable("entityType") String entityType) throws Exception {
         EntityType entite = EntityType.valueOf(entityType);
         int nbQuestion = 0;
         HttpStatus httpStatus = null;
@@ -92,7 +102,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.POST, value = "/{idQuestion}/{reponse}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Create a response for a question", notes = "Create a response for a question")
-    public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws SQLException {
+    public ResponseEntity<Question> particiter(@PathVariable(name = "idQuestion") int idQuestion, @PathVariable(name = "reponse") String reponse) throws Exception {
 
         //String reponse = request.getQueryString();
         Question question = questionService.read(idQuestion);
@@ -106,7 +116,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET, value = "/count")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Count number of Questions", notes = "Count number of Questions")
-    public ResponseEntity<Integer> count() throws SQLException {
+    public ResponseEntity<Integer> count() throws Exception {
         int count = questionService.countQuestion();
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;
@@ -117,7 +127,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET, value = "/statistiques/{idSondage}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Get statistiques for Sondage", notes = "Get statistiques for Sondage")
-    public ResponseEntity<StatQuestion> getStatQuestion(@PathVariable(name = "idSondage") int idQuestion) throws SQLException {
+    public ResponseEntity<StatQuestion> getStatQuestion(@PathVariable(name = "idSondage") int idQuestion) throws Exception {
         StatQuestion statQuestion = questionService.getStatQuestion(idQuestion);
         HttpStatus httpStatus = null;
         httpStatus = HttpStatus.OK;

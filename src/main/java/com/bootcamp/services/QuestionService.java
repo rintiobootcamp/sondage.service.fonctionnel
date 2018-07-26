@@ -8,11 +8,15 @@ import com.bootcamp.commons.models.Rule;
 import com.bootcamp.commons.ws.usecases.pivotone.QuestionWS;
 import com.bootcamp.commons.ws.usecases.pivotone.TypeReponseWS;
 import com.bootcamp.crud.QuestionCRUD;
+import com.bootcamp.entities.LikeTable;
 import com.bootcamp.entities.Question;
+import com.rintio.elastic.client.ElasticClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -26,25 +30,32 @@ public class QuestionService implements DatabaseConstants {
 
     QuestionWS questionWS;
     TypeReponseWS typeReponseWS;
+    ElasticClient elasticClient ;
 
     private static Logger logger = LogManager.getLogger(QuestionService.class);
 
-    public void create(Question question) throws SQLException {
+    @PostConstruct
+    public void init(){
+        elasticClient = new ElasticClient();
+    }
+    public void create(Question question) throws Exception {
         question.setDateCreation(System.currentTimeMillis());
         question.setDateMiseAJour(System.currentTimeMillis());
 
         QuestionCRUD.create(question);
+        createAllIndexQuestion();
         //return question;
     }
 
-    public Question update(Question question) throws SQLException {
+    public Question update(Question question) throws Exception {
         question.setDateMiseAJour(System.currentTimeMillis());
 
         QuestionCRUD.update(question);
+        createAllIndexQuestion();
         return question;
     }
 
-    public Question participer(Question question, String reponse) throws SQLException {
+    public Question participer(Question question, String reponse) throws Exception {
 
         HashMap<String, Long> typeReponses = question.getTypeReponses();
         if (typeReponses.containsKey(reponse)) {
@@ -55,15 +66,17 @@ public class QuestionService implements DatabaseConstants {
             logger.debug("-------------------- " + question.getTypeReponses().toString());
             QuestionCRUD.update(question);
         }
+        createAllIndexQuestion();
         return question;
     }
 
-    public Question delete(Question question) throws SQLException {
+    public Question delete(Question question) throws Exception {
         QuestionCRUD.delete(question);
+        createAllIndexQuestion();
         return question;
     }
 
-    public boolean delete(int id) {
+    public boolean delete(int id) throws Exception{
         Question question;
         try {
             question = this.read(id);
@@ -88,33 +101,34 @@ public class QuestionService implements DatabaseConstants {
 //        questionWS.setReponsesType(typeReponseService.getByQuestion(question));
 //        return questionWS;
 //    }
-    public List<Question> readAll() throws SQLException {
-        List<Question> questions = QuestionCRUD.read();
+    public List<Question> readAll() throws Exception {
+//        List<Question> questions = QuestionCRUD.read();
 
-        return questions;
+        return getAllQuestion();
     }
 
-    public int getAllQuestionByEntity(EntityType entityType) throws SQLException {
-        Criterias criterias = new Criterias();
-        criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
-        return QuestionCRUD.read(criterias).size();
+    public int getAllQuestionByEntity(EntityType entityType) throws Exception {
+//        Criterias criterias = new Criterias();
+//        criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
+        return (int) getAllQuestion().stream().filter(t->t.getEntityType().equals(entityType)).count();
     }
 
-    public Question read(int id) throws SQLException {
-        Criterias criterias = new Criterias();
-        Rule rule = new Rule();
-        rule.setColumn("id");
-        rule.setOperator("=");
-        rule.setValue(id);
+    public Question read(int id) throws Exception {
+//        Criterias criterias = new Criterias();
+//        Rule rule = new Rule();
+//        rule.setColumn("id");
+//        rule.setOperator("=");
+//        rule.setValue(id);
+//
+//        Criteria criteria = new Criteria();
+//        criteria.setRule(rule);
+//        criteria.setEntityClass(Question.class);
+//        criterias.addCriteria(criteria);
 
-        Criteria criteria = new Criteria();
-        criteria.setRule(rule);
-        criteria.setEntityClass(Question.class);
-        criterias.addCriteria(criteria);
+//        List<Question> questions = QuestionCRUD.read(criterias);
+        Question question = getAllQuestion().stream().filter(t->t.getId()==id).findFirst().get();
 
-        List<Question> questions = QuestionCRUD.read(criterias);
-
-        return questions.get(0);
+        return question;
     }
 
 //    private List<QuestionUWs> convertPilerToQuestionUWS(List<Question> questions){
@@ -123,14 +137,15 @@ public class QuestionService implements DatabaseConstants {
 //           QuestionUWs questionUWs = new QuestionUWs();
 //        }
 //    }
-    public int countQuestion() throws SQLException {
+    public int countQuestion() throws Exception {
 
-        int count = QuestionCRUD.read().size();
+//        int count = QuestionCRUD.read().size();
+        int count = getAllQuestion().size();
 
         return count;
     }
 
-    public StatQuestion getStatQuestion(int idQuestion) throws SQLException {
+    public StatQuestion getStatQuestion(int idQuestion) throws Exception {
 
         StatQuestion statQuestion = new StatQuestion();
 
@@ -196,11 +211,28 @@ public class QuestionService implements DatabaseConstants {
     /**
      * rounded a double number
      *
-     * @param double, int
      * @return a double
      */
     public static double arrondi(double A, int B) {
         return (double) ((int) (A * Math.pow(10, B) + 0.5)) / Math.pow(10, B);
     }
 
+    public List<Question> getAllQuestion() throws Exception{
+        ElasticClient elasticClient = new ElasticClient();
+        List<Object> objects = elasticClient.getAllObject("questions");
+        ModelMapper modelMapper = new ModelMapper();
+        List<Question> rest = new ArrayList<>();
+        for(Object obj:objects){
+            rest.add(modelMapper.map(obj,Question.class));
+        }
+        return rest;
+    }
+
+    public boolean createAllIndexQuestion()throws Exception{
+        List<Question> questions = QuestionCRUD.read();
+        for (Question question : questions){
+            elasticClient.creerIndexObjectNative("questions","question",question,question.getId());
+        }
+        return true;
+    }
 }
