@@ -110,7 +110,7 @@ public class QuestionService implements DatabaseConstants {
     public int getAllQuestionByEntity(EntityType entityType) throws Exception {
 //        Criterias criterias = new Criterias();
 //        criterias.addCriteria(new Criteria(new Rule("entityType", "=", entityType), null));
-        return (int) getAllQuestion().stream().filter(t->t.getEntityType().equals(entityType)).count();
+        return (int) getAllQuestion().stream().filter(t->t.getEntityType().equalsIgnoreCase(entityType.toString())).count();
     }
 
     public Question read(int id) throws Exception {
