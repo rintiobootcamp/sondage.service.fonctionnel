@@ -25,11 +25,10 @@ import java.util.logging.Logger;
 @Api(value = "Question API", description = "Question API")
 @CrossOrigin(origins = "*")
 public class QuestionController {
-
     @Autowired
     QuestionService questionService;
 
-//    @Autowired
+    //    @Autowired
 //    TypeReponseService questionService;
     @Autowired
     HttpServletRequest request;
