@@ -42,6 +42,12 @@
             <groupId>com.rintio</groupId>
             <artifactId>elastic</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -65,10 +71,7 @@
             <artifactId>commons</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
+
             </exclusions>
         </dependency>
 
@@ -81,6 +84,7 @@
                     <groupId>com.bootcamp</groupId>
                     <artifactId>commons</artifactId>
                 </exclusion>
+
             </exclusions>
         </dependency>
         
@@ -93,6 +97,10 @@
                     <groupId>com.bootcamp</groupId>
                     <artifactId>commons</artifactId>
                 </exclusion>
+                <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
             </exclusions>
         </dependency>
 
@@ -213,6 +221,12 @@
             <groupId>com.bootcamp</groupId>
             <artifactId>db-access</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

@@ -7,8 +7,10 @@
  */
 package com.bootcamp.application;
 
+import com.bootcamp.services.QuestionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.index.fielddata.plain.SortedNumericDVIndexFieldData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,6 +45,11 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
 
         SpringApplication.run(Application.class, args);
+        try {
+            new QuestionService().createAllIndexQuestion();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
