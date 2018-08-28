@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Created by darextossa on 11/27/17.
@@ -45,6 +46,10 @@ public class QuestionService implements DatabaseConstants {
         QuestionCRUD.create(question);
         createAllIndexQuestion();
         //return question;
+    }
+
+    public void getprime(){
+
     }
 
     public Question update(Question question) throws Exception {
@@ -129,6 +134,10 @@ public class QuestionService implements DatabaseConstants {
         Question question = getAllQuestion().stream().filter(t->t.getId()==id).findFirst().get();
 
         return question;
+    }
+
+    public List<Question> getUneQuestion() throws Exception{
+        return  getAllQuestion().stream().filter(t->t.isUne()).collect(Collectors.toList());
     }
 
 //    private List<QuestionUWs> convertPilerToQuestionUWS(List<Question> questions){

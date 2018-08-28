@@ -79,6 +79,16 @@ public class QuestionController {
         return new ResponseEntity<>(questions, httpStatus);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/primes")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Read all the primes questions", notes = "Read all primes the questions")
+    public ResponseEntity<List<Question>> readUnes() throws Exception {
+        HttpStatus httpStatus = null;
+        List<Question> questions = questionService.getUneQuestion();
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<>(questions, httpStatus);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/stats/{entityType}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read all debat on entity", notes = "Read all debat on entity")
