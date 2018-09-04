@@ -55,6 +55,16 @@ public class QuestionController {
         return new ResponseEntity<>(question, httpStatus);
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Update a  question", notes = "Update a question")
+    public ResponseEntity<Question> update(@RequestBody @Valid Question question) throws Exception {
+        HttpStatus httpStatus = null;
+        Question retour = questionService.update(question);
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity<>(retour, httpStatus);
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value="/{idQuestion}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Delete a question", notes = "Create a question")

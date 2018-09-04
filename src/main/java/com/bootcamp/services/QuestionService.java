@@ -48,13 +48,9 @@ public class QuestionService implements DatabaseConstants {
         //return question;
     }
 
-    public void getprime(){
-
-    }
 
     public Question update(Question question) throws Exception {
         question.setDateMiseAJour(System.currentTimeMillis());
-
         QuestionCRUD.update(question);
         createAllIndexQuestion();
         return question;
