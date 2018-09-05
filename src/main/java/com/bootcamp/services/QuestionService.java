@@ -53,6 +53,7 @@ public class QuestionService implements DatabaseConstants {
         question.setDateMiseAJour(System.currentTimeMillis());
         QuestionCRUD.update(question);
         createAllIndexQuestion();
+        getAllQuestion();
         return question;
     }
 
