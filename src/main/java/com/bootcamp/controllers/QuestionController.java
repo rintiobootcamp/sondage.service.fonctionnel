@@ -90,7 +90,7 @@ public class QuestionController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "{/id}")
+    @RequestMapping(method = RequestMethod.GET,value = "/{id}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Read un question by ID", notes = "Read the question by ID")
     public ResponseEntity<Question> readById(@PathVariable int id) throws Exception {
