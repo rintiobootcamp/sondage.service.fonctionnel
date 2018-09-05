@@ -55,10 +55,10 @@ public class QuestionController {
         return new ResponseEntity<>(question, httpStatus);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT,value = "/{id}")
     @ApiVersions({"1.0"})
     @ApiOperation(value = "Update a  question", notes = "Update a question")
-    public ResponseEntity<Question> update(@RequestBody @Valid Question question) throws Exception {
+    public ResponseEntity<Question> update(@RequestBody @Valid Question question,@PathVariable int id) throws Exception {
         HttpStatus httpStatus = null;
         Question retour = questionService.update(question);
         httpStatus = HttpStatus.OK;
@@ -86,6 +86,17 @@ public class QuestionController {
         List<Question> questions = questionService.readAll();
         httpStatus = HttpStatus.OK;
 
+        return new ResponseEntity<>(questions, httpStatus);
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET,value = "{/id}")
+    @ApiVersions({"1.0"})
+    @ApiOperation(value = "Read un question by ID", notes = "Read the question by ID")
+    public ResponseEntity<Question> readById(@PathVariable int id) throws Exception {
+        HttpStatus httpStatus = null;
+        Question questions = questionService.read(id);
+        httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(questions, httpStatus);
     }
 
